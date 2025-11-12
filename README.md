@@ -1,94 +1,108 @@
-#  Municipal Services App (Final POE 3 Submission)
+# 🌉 Municipal Services App (Final POE 3 Submission)
 
-###  Module: PROG7312 — Application Development  
-**Student:** Rubben Shisso (ST10345300)  
-**Institution:** Varsity College Cape Town  
-**Project Type:** Windows Forms (.NET Framework 4.8)  
+### Module: **PROG7312 — Application Development**
+
+**Student:** Rubben Shisso (ST10345300)
+**Institution:** Varsity College Cape Town
+**Project Type:** Windows Forms (.NET Framework 4.8)
 **GitHub Repository:** [VCCT-PROG7312-2025-G2/ST10345300_MunicipalServicesApp](https://github.com/VCCT-PROG7312-2025-G2/ST10345300_MunicipalServicesApp)
 
 ---
 
 ## 🧾 Overview
 
-The **Municipal Services App** is a desktop application that enables citizens to:
-- Report service delivery issues to their municipality.
-- Track the status of reported issues.
-- View community events and notices.
-- Access a dashboard visualizing issue trends.
+The **Municipal Services App** is a Windows Forms desktop solution that enables citizens to:
 
-It’s designed to **promote transparency, accountability, and efficiency** between residents and municipal departments.
+* Report and monitor service delivery issues.
+* Track request statuses (`Pending / In Progress / Completed`).
+* Explore community events and mark attendance.
+* View analytical dashboards summarizing municipal performance.
 
----
-
-##  Technologies Used
-
-| Component | Technology |
-|------------|-------------|
-| UI Framework | Windows Forms (.NET Framework 4.8) |
-| Language | C# |
-| Charting | System.Windows.Forms.DataVisualization.Charting |
-| JSON Data Storage | Newtonsoft.Json |
-| IDE | Visual Studio 2022 |
-| Source Control | Git & GitHub |
+It promotes **transparency**, **accountability**, and **efficiency** between residents and their local government.
 
 ---
 
-##  Features
+## ⚙️ Technologies Used
 
-###  Report an Issue  
-- Citizens can log service issues (Water, Electricity, Roads, Waste, etc.).  
-- Includes **file attachment** (e.g., photo evidence).  
-- Automatically stores issue data in a JSON file (`/Data/issues.json`).
-
-###  Service Status Tracking  
-- Displays all reported issues with their current status.  
-- Statuses: `Pending`, `In Progress`, `Completed`.  
-- Pagination for improved readability.
-
-###  Community Events  
-- Displays up to **6 events per page**.  
-- Users can mark events as attended.  
-- Automatically saves event state.
-
-###  Dashboard  
-- Interactive data visualizations:
-  - **Bar Chart:** Issues per Category.
-  - **Pie Chart:** Issues per Status.
-- Graphs auto-update as new issues are reported.
-
-###  Attachments  
-- Added in **ReportIssuesForm**.  
-- Allows users to attach supporting photos/documents.  
-- Displays the file name after upload.
-
-###  Exit & Navigation Buttons  
-- Each form includes an **Exit** button.  
-- Clean transitions between forms (Main Menu → Report / Track / Events / Dashboard).
+| Component      | Technology                                        |
+| -------------- | ------------------------------------------------- |
+| UI Framework   | Windows Forms (.NET Framework 4.8)                |
+| Language       | C#                                                |
+| Charting       | `System.Windows.Forms.DataVisualization.Charting` |
+| Data Storage   | `Newtonsoft.Json` (JSON files)                    |
+| Algorithms     | Custom Data Structures + Kruskal MST              |
+| IDE            | Visual Studio 2022                                |
+| Source Control | Git + GitHub                                      |
 
 ---
 
-##  Installation & Setup
+## ✨ Key Features
 
-1. **Clone the repository:**
+### 📝 Report an Issue
+
+* Citizens log municipal issues (Water, Electricity, Roads, Waste etc.).
+* Optional **file attachment** for evidence.
+* Saved locally in `/Data/issues.json`.
+
+### 📊 Service Status Tracking
+
+* Displays all issues with filterable status.
+* Data auto-loads from JSON.
+* Paginated UI for better readability.
+
+### 🎉 Community Events
+
+* Up to six events per page.
+* Users can mark attendance.
+* Saved automatically to `/Data/events.json`.
+
+### 📈 Dashboard & Analytics
+
+* **Bar Chart:** Issues by Category.
+* **Pie Chart:** Issues by Status.
+* Charts refresh dynamically as new issues are reported.
+
+### 🧭 Route Optimizer (MST Algorithm)
+
+* **New feature for POE 3** — integrated Kruskal’s Minimum Spanning Tree algorithm.
+* Calculates the **most cost-efficient route** between municipal areas.
+* Demonstrates advanced data-structure usage (Graphs + Union-Find).
+* Accessible via the “🧭 Route Optimizer” button on the Dashboard.
+
+### 🦩 Modern UI Enhancements
+
+* Rounded corners and glass-morphic gradient design.
+* Clean navigation buttons (Back / Exit / Route Optimizer).
+* Responsive form layouts for clarity and usability.
+
+---
+
+## 🧰 Installation & Setup
+
+1. **Clone the repository**
+
    ```bash
    git clone https://github.com/VCCT-PROG7312-2025-G2/ST10345300_MunicipalServicesApp.git
    ```
 
-2. **Open the project in Visual Studio 2022.**
-   - Double-click the `.sln` file.
+2. **Open in Visual Studio 2022**
 
-3. **Ensure these NuGet packages are installed:**
+   * Double-click `MunicipalServicesAppPoe_3.sln`.
+
+3. **Install dependencies**
+
    ```bash
    Install-Package Newtonsoft.Json
    ```
 
-4. **Run the App:**
-   - Press `F5` in Visual Studio.
-   - The **Main Menu Form** will load.
+4. **Run the App**
+
+   * Press `F5` to launch.
+   * Main Menu opens automatically.
 
 ---
 
-## 🧩 File Structure
+## 🗂️ Project Structure
 
 ```
 MunicipalServicesAppPoe_3/
@@ -99,14 +113,15 @@ MunicipalServicesAppPoe_3/
 ├── Services/
 │   ├── IssueManager.cs
 │   ├── EventManager.cs
-│   └── InMemoryRepository.cs
+│   ├── InMemoryRepository.cs
+│   └── RouteOptimizer.cs        ← NEW (Kruskal MST feature)
 │
 ├── Forms/
 │   ├── MainMenuForm.cs
 │   ├── ReportIssuesForm.cs
 │   ├── ServiceStatusForm.cs
 │   ├── EventsForm.cs
-│   └── DashboardForm.cs
+│   └── DashboardForm.cs         ← Updated with Route Optimizer button
 │
 ├── Data/
 │   ├── issues.json
@@ -115,45 +130,59 @@ MunicipalServicesAppPoe_3/
 └── README.md
 ```
 
- youtube link : https://youtu.be/XmZ5xpFE0k0
+---
 
-##  How to Run the Application
-1. Open the solution file  
-   ```
-   MunicipalServicesAppPoe_3.sln
-   ```
-   in **Visual Studio 2022** (or newer).
+## ▶️ Demonstration Video
 
-2. Set the project as **Startup Project** and build.
-
-3. Run  to launch the **Main Menu**, where you can:
-   - Report a new issue  
-   - Track requests  
-   - View community events  
-   - Open the analytics dashboard
+🎥 YouTube Demo: [https://youtu.be/XmZ5xpFE0k0](https://youtu.be/XmZ5xpFE0k0)
 
 ---
 
-##  Data Flow Summary
+## 🚀 How to Run
+
+1. Open `MunicipalServicesAppPoe_3.sln` in Visual Studio 2022+.
+2. Set the project as **Startup Project** → Build → Run (`F5`).
+3. In the Main Menu, you can:
+
+   * Report new issues
+   * Track requests
+   * View community events
+   * Open the Dashboard and use the 🧭 Route Optimizer
+
+---
+
+## 🔄 Data Flow Summary
+
 ```
-User Input → IssueManager / EventManager → JSON Storage → UI Display → Charts
+User Input
+   ↓
+IssueManager / EventManager
+   ↓
+JSON Storage
+   ↓
+UI Forms & Charts → Dashboard + MST Report
 ```
-All data updates are **automatically persisted** between sessions.
+
+All data persists automatically between sessions.
 
 ---
 
-##  Concepts Demonstrated
-- **Data Persistence** using JSON.  
-- **Dynamic UI Rendering** with custom GDI+ graphics.  
-- **Encapsulation & OOP Structure** (separate Models and Services).  
-- **Data Visualization** using Charts.  
-- **User Experience** with paginated navigation & glass-morphic styling.
+## 💡 Concepts Demonstrated
+
+* **Data Persistence** (JSON read/write)
+* **Object-Oriented Programming** (models + services)
+* **Custom Data Structures** (Binary Search Tree, Graph, MST)
+* **Algorithmic Optimization** (Kruskal MST using Union-Find)
+* **Dynamic UI Rendering** (GDI+ gradients & Charting)
+* **User Experience Design** (glass-morphic forms + navigation buttons)
+* **Version Control** (Git branching and rebasing workflow)
 
 ---
 
-##  Credits & Acknowledgments
-Developed by **Rubben Shisso (ST10345300)**  
-for **VCCT – Varsity College Cape Town**  
-Module: **PROG7312 – Programming 3B (2025)**  
-Group: **VCCT-PROG7312-2025-G2**
+## 👌 Credits & Acknowledgments
+
+Developed by **Rubben Shisso (ST10345300)**
+for **Varsity College Cape Town — Programming 3B (PROG7312)**
+Group Repository: **VCCT-PROG7312-2025-G2**
+Final Deliverable: **POE Part 3 – Data Structures & Optimization**
 
