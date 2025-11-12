@@ -1,59 +1,95 @@
-#  Municipal Services App (Final Submission – PROG7312 Part 3)
+#  Municipal Services App (Final POE 3 Submission)
 
-### Developer
-**Rubben Shisso – ST10345300**  
-VCCT – Bachelor of Computer & Information Sciences in Application Development  
-
----
-
-##  Overview
-The **Municipal Services App** is a C# Windows Forms application designed to streamline how community members interact with municipal services.  
-It provides residents with a modern digital platform to **report issues**, **track service requests**, and **stay informed** about **community events**, supported by a visual **dashboard** for data analytics.
+###  Module: PROG7312 — Application Development  
+**Student:** Rubben Shisso (ST10345300)  
+**Institution:** Varsity College Cape Town  
+**Project Type:** Windows Forms (.NET Framework 4.8)  
+**GitHub Repository:** [VCCT-PROG7312-2025-G2/ST10345300_MunicipalServicesApp](https://github.com/VCCT-PROG7312-2025-G2/ST10345300_MunicipalServicesApp)
 
 ---
 
-## 🚀 Features
+## 🧾 Overview
 
-###  Report Issues
-- Citizens can log issues such as water leaks, potholes, or power outages.  
-- Each issue includes a **category, location, description, and status**.  
-- Issues are stored locally in a JSON file using the `IssueManager` service.
+The **Municipal Services App** is a desktop application that enables citizens to:
+- Report service delivery issues to their municipality.
+- Track the status of reported issues.
+- View community events and notices.
+- Access a dashboard visualizing issue trends.
 
-###  Track My Requests
-- Displays all reported issues in a modern, glass-morphic interface.  
-- Statuses can be toggled between **Pending → In Progress → Completed**.  
-- Pagination prevents scroll overflow for smoother navigation.
-
-###  Community Events
-- View up to **six community events per page**, displayed in uniform frosted-glass cards.  
-- Each card includes a title, date, and description with a small **“Mark as Attended”** button.  
-- Data is handled through `EventManager`, stored persistently in JSON.
-
-###  Dashboard Analytics
-- Interactive **charts** visualize:
-  - Issues by Category (Bar Graph)
-  - Issues by Status (Pie Chart)
-- Fully centered layout with visible navigation and exit buttons.
-
-###  Additional Details
-- Gradient backgrounds with frosted-glass cards and accent-colored hover effects.  
-- All forms use rounded corners and a consistent aesthetic.  
-- Each page includes an **Exit Button** for user convenience.
+It’s designed to **promote transparency, accountability, and efficiency** between residents and municipal departments.
 
 ---
 
 ##  Technologies Used
-| Layer | Technology |
-|-------|-------------|
-| Framework | **.NET Framework 4.8** |
-| Language | **C# WinForms** |
-| Data Storage | **JSON Serialization (Newtonsoft.Json)** |
-| UI Design | **Custom GDI+ Drawing, Gradient Brushes, Rounded Corners** |
-| Charts | **System.Windows.Forms.DataVisualization.Charting** |
+
+| Component | Technology |
+|------------|-------------|
+| UI Framework | Windows Forms (.NET Framework 4.8) |
+| Language | C# |
+| Charting | System.Windows.Forms.DataVisualization.Charting |
+| JSON Data Storage | Newtonsoft.Json |
+| IDE | Visual Studio 2022 |
+| Source Control | Git & GitHub |
 
 ---
 
-##  Project Structure
+##  Features
+
+###  Report an Issue  
+- Citizens can log service issues (Water, Electricity, Roads, Waste, etc.).  
+- Includes **file attachment** (e.g., photo evidence).  
+- Automatically stores issue data in a JSON file (`/Data/issues.json`).
+
+###  Service Status Tracking  
+- Displays all reported issues with their current status.  
+- Statuses: `Pending`, `In Progress`, `Completed`.  
+- Pagination for improved readability.
+
+###  Community Events  
+- Displays up to **6 events per page**.  
+- Users can mark events as attended.  
+- Automatically saves event state.
+
+###  Dashboard  
+- Interactive data visualizations:
+  - **Bar Chart:** Issues per Category.
+  - **Pie Chart:** Issues per Status.
+- Graphs auto-update as new issues are reported.
+
+###  Attachments  
+- Added in **ReportIssuesForm**.  
+- Allows users to attach supporting photos/documents.  
+- Displays the file name after upload.
+
+###  Exit & Navigation Buttons  
+- Each form includes an **Exit** button.  
+- Clean transitions between forms (Main Menu → Report / Track / Events / Dashboard).
+
+---
+
+##  Installation & Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/VCCT-PROG7312-2025-G2/ST10345300_MunicipalServicesApp.git
+   ```
+
+2. **Open the project in Visual Studio 2022.**
+   - Double-click the `.sln` file.
+
+3. **Ensure these NuGet packages are installed:**
+   ```bash
+   Install-Package Newtonsoft.Json
+   ```
+
+4. **Run the App:**
+   - Press `F5` in Visual Studio.
+   - The **Main Menu Form** will load.
+
+---
+
+## 🧩 File Structure
+
 ```
 MunicipalServicesAppPoe_3/
 │
@@ -63,24 +99,22 @@ MunicipalServicesAppPoe_3/
 ├── Services/
 │   ├── IssueManager.cs
 │   ├── EventManager.cs
-│   ├── InMemoryRepository.cs
+│   └── InMemoryRepository.cs
 │
 ├── Forms/
 │   ├── MainMenuForm.cs
 │   ├── ReportIssuesForm.cs
 │   ├── ServiceStatusForm.cs
 │   ├── EventsForm.cs
-│   ├── DashboardForm.cs
+│   └── DashboardForm.cs
 │
 ├── Data/
 │   ├── issues.json
 │   └── events.json
 │
-├── MunicipalServicesAppPoe_3.sln
 └── README.md
 ```
 
----
 
 ##  How to Run the Application
 1. Open the solution file  
@@ -99,7 +133,7 @@ MunicipalServicesAppPoe_3/
 
 ---
 
-## 📊 Data Flow Summary
+##  Data Flow Summary
 ```
 User Input → IssueManager / EventManager → JSON Storage → UI Display → Charts
 ```
