@@ -1,11 +1,13 @@
-﻿using System;
+﻿using MunicipalServicesAppPoe_3.Services;
+using MunicipalServicesAppPoe3.Services;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using MunicipalServicesAppPoe3.Services;
 
 namespace MunicipalServicesAppPoe3
 {
@@ -74,7 +76,6 @@ namespace MunicipalServicesAppPoe3
                 TextAlign = ContentAlignment.MiddleCenter
             };
 
-            // adds title first, then subtitle
             header.Controls.Add(subtitle);
             header.Controls.Add(title);
             Controls.Add(header);
@@ -94,11 +95,10 @@ namespace MunicipalServicesAppPoe3
                 return;
             }
 
-            // === Charts Panel ===
             var chartsPanel = new Panel
             {
                 Dock = DockStyle.Top,
-                Height = 500, // space for footer buttons
+                Height = 500,
                 BackColor = Color.Transparent
             };
             Controls.Add(chartsPanel);
@@ -146,7 +146,6 @@ namespace MunicipalServicesAppPoe3
             chartStatus.Series.Add(seriesStatus);
             chartStatus.Legends.Add(new Legend { Docking = Docking.Bottom, ForeColor = Color.White });
 
-            // === Center Charts ===
             chartCategory.Size = new Size(380, 350);
             chartStatus.Size = new Size(380, 350);
             int spacing = 40;
@@ -158,7 +157,6 @@ namespace MunicipalServicesAppPoe3
             chartsPanel.Controls.Add(chartCategory);
             chartsPanel.Controls.Add(chartStatus);
 
-            // === Buttons at Bottom ===
             AddButtons();
         }
 
@@ -183,13 +181,15 @@ namespace MunicipalServicesAppPoe3
         {
             var btnBack = CreateButton("⬅ Back", 60, 620, Accent, () => Close());
             var btnExit = CreateButton("✖ Exit", 720, 620, Color.FromArgb(80, 0, 0), () => Application.Exit());
+            var btnRoute = CreateButton("🧭 Route Optimizer", 360, 620, Accent, ShowOptimalRoute);
 
-            // Anchor buttons to bottom corners
             btnBack.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnExit.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnRoute.Anchor = AnchorStyles.Bottom;
 
             Controls.Add(btnBack);
             Controls.Add(btnExit);
+            Controls.Add(btnRoute);
         }
 
         private Button CreateButton(string text, int x, int y, Color hoverColor, Action onClick)
@@ -197,7 +197,7 @@ namespace MunicipalServicesAppPoe3
             var btn = new Button
             {
                 Text = text,
-                Width = 130,
+                Width = 160,
                 Height = 40,
                 Font = new Font("Segoe UI", 10, FontStyle.Bold),
                 ForeColor = Color.White,
@@ -209,6 +209,29 @@ namespace MunicipalServicesAppPoe3
             btn.FlatAppearance.MouseOverBackColor = hoverColor;
             btn.Click += (s, e) => onClick();
             return btn;
+        }
+
+        private void ShowOptimalRoute()
+        {
+            List<RouteOptimizer.Edge> edges = new List<RouteOptimizer.Edge>()
+{
+    new RouteOptimizer.Edge { Source = 0, Destination = 1, Weight = 3 },
+    new RouteOptimizer.Edge { Source = 0, Destination = 2, Weight = 4 },
+    new RouteOptimizer.Edge { Source = 1, Destination = 2, Weight = 2 },
+    new RouteOptimizer.Edge { Source = 1, Destination = 3, Weight = 6 },
+    new RouteOptimizer.Edge { Source = 2, Destination = 3, Weight = 5 }
+};
+
+
+            var mst = RouteOptimizer.KruskalMST(edges, 4);
+            int totalCost = mst.Sum(e => e.Weight);
+
+            string result = "🧩 Optimal Municipal Route (MST)\n\n";
+            foreach (var e in mst)
+                result += $"• Area {e.Source} ↔ Area {e.Destination} | Cost: {e.Weight}\n";
+
+            result += $"\nTotal Minimum Cost: {totalCost}";
+            MessageBox.Show(result, "Route Optimizer", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

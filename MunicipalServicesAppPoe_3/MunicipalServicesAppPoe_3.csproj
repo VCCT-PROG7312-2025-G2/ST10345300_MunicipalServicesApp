@@ -89,6 +89,7 @@
     </Compile>
     <Compile Include="Services\EventManager.cs" />
     <Compile Include="Services\IssueManager.cs" />
+    <Compile Include="Services\RouteOptimizer.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
