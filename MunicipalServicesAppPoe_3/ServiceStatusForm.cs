@@ -1,9 +1,10 @@
-﻿using MunicipalServicesAppPoe3.Services; // keep only this namespace
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.IO;
+using MunicipalServicesAppPoe3.Services;
 
 namespace MunicipalServicesAppPoe3
 {
@@ -25,8 +26,8 @@ namespace MunicipalServicesAppPoe3
 
         public ServiceStatusForm()
         {
-            InitializeComponent();  // 👈 add this line back
-            BuildUI();              // builds the custom layout
+            InitializeComponent();
+            BuildUI();
         }
 
         private void BuildUI()
@@ -71,8 +72,8 @@ namespace MunicipalServicesAppPoe3
             Controls.Add(header);
 
             // === Load Issues ===
-            var issues = IssueManager.GetIssuesSorted();
-            if (issues == null || issues.Count == 0)
+            var issues = IssueManager.Issues;
+            if (issues.Count == 0)
             {
                 Controls.Add(new Label
                 {
@@ -93,7 +94,6 @@ namespace MunicipalServicesAppPoe3
                 for (int i = startIndex; i < endIndex; i++)
                 {
                     var issue = issues[i];
-
                     var card = new Panel
                     {
                         Size = new Size(750, 100),
@@ -120,6 +120,41 @@ namespace MunicipalServicesAppPoe3
                         AutoSize = true
                     };
 
+                    // === View Image Button ===
+                    if (!string.IsNullOrEmpty(issue.AttachmentPath) && File.Exists(issue.AttachmentPath))
+                    {
+                        var btnViewImage = new Button
+                        {
+                            Text = "📷 View",
+                            Width = 80,
+                            Height = 30,
+                            Font = new Font("Segoe UI", 9, FontStyle.Bold),
+                            ForeColor = Color.White,
+                            BackColor = Color.FromArgb(60, 60, 60),
+                            FlatStyle = FlatStyle.Flat,
+                            Location = new Point(card.Width - 280, 35)
+                        };
+                        btnViewImage.FlatAppearance.BorderColor = Color.Gray;
+                        btnViewImage.FlatAppearance.MouseOverBackColor = Accent;
+                        btnViewImage.Click += (s, e) =>
+                        {
+                            try
+                            {
+                                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                                {
+                                    FileName = issue.AttachmentPath,
+                                    UseShellExecute = true
+                                });
+                            }
+                            catch
+                            {
+                                MessageBox.Show("Could not open image file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        };
+                        card.Controls.Add(btnViewImage);
+                    }
+
+                    // === Status Button ===
                     var statusBtn = new Button
                     {
                         Text = issue.Status,
@@ -134,7 +169,6 @@ namespace MunicipalServicesAppPoe3
                         Location = new Point(card.Width - 150, 33)
                     };
                     statusBtn.FlatAppearance.BorderColor = Color.Gray;
-
                     statusBtn.Click += (s, e) =>
                     {
                         string newStatus = issue.Status == "Pending" ? "In Progress"
@@ -175,7 +209,7 @@ namespace MunicipalServicesAppPoe3
                 }
             }
 
-            // Exit button
+            // === Exit button ===
             var btnExit = CreateNavButton("✖ Exit", 60, 620, () => Close());
             Controls.Add(btnExit);
         }

@@ -12,7 +12,7 @@ namespace MunicipalServicesAppPoe3.Models
         public string Description { get; set; }
         public string Status { get; set; } = "Pending";
         public DateTime DateReported { get; set; } = DateTime.Now;
-
+        public string AttachmentPath { get; set; }
         public int CompareTo(IssueReport other)
         {
             return Id.CompareTo(other.Id);

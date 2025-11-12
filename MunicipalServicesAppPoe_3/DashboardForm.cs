@@ -74,7 +74,7 @@ namespace MunicipalServicesAppPoe3
                 TextAlign = ContentAlignment.MiddleCenter
             };
 
-            // Correct order: add title first, then subtitle
+            // adds title first, then subtitle
             header.Controls.Add(subtitle);
             header.Controls.Add(title);
             Controls.Add(header);
@@ -98,7 +98,7 @@ namespace MunicipalServicesAppPoe3
             var chartsPanel = new Panel
             {
                 Dock = DockStyle.Top,
-                Height = 500, // keeps space for footer buttons
+                Height = 500, // space for footer buttons
                 BackColor = Color.Transparent
             };
             Controls.Add(chartsPanel);

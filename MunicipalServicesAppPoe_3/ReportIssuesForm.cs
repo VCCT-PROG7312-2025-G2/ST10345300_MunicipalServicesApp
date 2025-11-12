@@ -3,6 +3,7 @@ using MunicipalServicesAppPoe3.Services;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -16,13 +17,15 @@ namespace MunicipalServicesAppPoe3
         private readonly Color CardGlass = Color.FromArgb(200, 40, 40, 45);
         private readonly Color Accent = Color.FromArgb(0, 120, 215);
 
+        private string attachedImagePath = null; // ✅ New: stores image path
+
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect,
             int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
 
         public ReportIssuesForm()
         {
-           
+            InitializeComponent();
             BuildUI();
         }
 
@@ -65,7 +68,7 @@ namespace MunicipalServicesAppPoe3
             // Card panel
             var card = new Panel
             {
-                Size = new Size(750, 400),
+                Size = new Size(750, 460),
                 Location = new Point((ClientSize.Width - 750) / 2, 160),
                 BackColor = CardGlass
             };
@@ -101,6 +104,44 @@ namespace MunicipalServicesAppPoe3
                 BorderStyle = BorderStyle.None
             };
 
+            // === Attachment Section ===
+            var lblAttach = CreateLabel("Attach Image (optional):", 340);
+            var btnAttach = new Button
+            {
+                Text = "📎 Attach",
+                Width = 100,
+                Height = 35,
+                Font = new Font("Segoe UI", 9, FontStyle.Bold),
+                ForeColor = Color.White,
+                BackColor = Color.FromArgb(60, 60, 60),
+                FlatStyle = FlatStyle.Flat,
+                Location = new Point(200, 340)
+            };
+            btnAttach.FlatAppearance.BorderColor = Color.Gray;
+            btnAttach.FlatAppearance.MouseOverBackColor = Accent;
+
+            // Preview image box
+            var picPreview = new PictureBox
+            {
+                Size = new Size(100, 80),
+                Location = new Point(320, 330),
+                BorderStyle = BorderStyle.FixedSingle,
+                SizeMode = PictureBoxSizeMode.Zoom
+            };
+
+            btnAttach.Click += (s, e) =>
+            {
+                using (OpenFileDialog dialog = new OpenFileDialog())
+                {
+                    dialog.Filter = "Image Files (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        attachedImagePath = dialog.FileName;
+                        picPreview.Image = Image.FromFile(dialog.FileName);
+                    }
+                }
+            };
+
             // Submit button
             var btnSubmit = new Button
             {
@@ -111,13 +152,17 @@ namespace MunicipalServicesAppPoe3
                 BackColor = Color.FromArgb(60, 60, 60),
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
-                Location = new Point(280, 340)
+                Location = new Point(280, 400)
             };
             btnSubmit.FlatAppearance.BorderColor = Color.Gray;
             btnSubmit.FlatAppearance.MouseOverBackColor = Accent;
+
             btnSubmit.Click += (s, e) =>
             {
-                if (string.IsNullOrWhiteSpace(txtName.Text) || string.IsNullOrWhiteSpace(txtLocation.Text) || string.IsNullOrWhiteSpace(txtDescription.Text) || cmbCategory.SelectedIndex < 0)
+                if (string.IsNullOrWhiteSpace(txtName.Text) ||
+                    string.IsNullOrWhiteSpace(txtLocation.Text) ||
+                    string.IsNullOrWhiteSpace(txtDescription.Text) ||
+                    cmbCategory.SelectedIndex < 0)
                 {
                     MessageBox.Show("Please fill in all fields before submitting.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -128,7 +173,10 @@ namespace MunicipalServicesAppPoe3
                     ReporterName = txtName.Text,
                     Category = cmbCategory.SelectedItem.ToString(),
                     Location = txtLocation.Text,
-                    Description = txtDescription.Text
+                    Description = txtDescription.Text,
+                    Status = "Pending",
+                    DateReported = DateTime.Now,
+                    AttachmentPath = attachedImagePath
                 };
 
                 IssueManager.AddIssue(issue);
@@ -138,6 +186,8 @@ namespace MunicipalServicesAppPoe3
                 txtLocation.Clear();
                 txtDescription.Clear();
                 cmbCategory.SelectedIndex = -1;
+                picPreview.Image = null;
+                attachedImagePath = null;
             };
 
             card.Controls.Add(lblName);
@@ -148,6 +198,9 @@ namespace MunicipalServicesAppPoe3
             card.Controls.Add(txtLocation);
             card.Controls.Add(lblDescription);
             card.Controls.Add(txtDescription);
+            card.Controls.Add(lblAttach);
+            card.Controls.Add(btnAttach);
+            card.Controls.Add(picPreview);
             card.Controls.Add(btnSubmit);
 
             // Exit button
