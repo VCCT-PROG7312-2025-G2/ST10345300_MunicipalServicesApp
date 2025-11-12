@@ -1,4 +1,4 @@
-# 🌉 Municipal Services App (Final POE 3 Submission)
+# 🏙️ Municipal Services App (Final POE 3 Submission)
 
 ### Module: **PROG7312 — Application Development**
 
@@ -69,7 +69,7 @@ It promotes **transparency**, **accountability**, and **efficiency** between res
 * Demonstrates advanced data-structure usage (Graphs + Union-Find).
 * Accessible via the “🧭 Route Optimizer” button on the Dashboard.
 
-### 🦩 Modern UI Enhancements
+### 🪟 Modern UI Enhancements
 
 * Rounded corners and glass-morphic gradient design.
 * Clean navigation buttons (Back / Exit / Route Optimizer).
@@ -102,7 +102,7 @@ It promotes **transparency**, **accountability**, and **efficiency** between res
 
 ---
 
-## 🗂️ Project Structure
+## 📂 Project Structure
 
 ```
 MunicipalServicesAppPoe_3/
@@ -179,7 +179,33 @@ All data persists automatically between sessions.
 
 ---
 
-## 👌 Credits & Acknowledgments
+## 🕒 Changelog / Version History
+
+### **POE Part 1 — Initial Prototype**
+
+* Implemented base UI structure using WinForms.
+* Added Issue Reporting form with JSON storage.
+* Created IssueManager and EventManager services.
+* Designed simple navigation (Main Menu, Report, Track, Events).
+
+### **POE Part 2 — Feature Expansion**
+
+* Enhanced UI layout with gradient backgrounds and rounded corners.
+* Added Service Status tracking form and dynamic dashboard charts.
+* Introduced community event functionality and pagination.
+* Improved JSON data handling and error checking.
+
+### **POE Part 3 — Final Submission (Data Structures & Optimization)**
+
+* Added **RouteOptimizer.cs** implementing **Kruskal’s Minimum Spanning Tree (MST)** algorithm.
+* Updated Dashboard with **🧭 Route Optimizer** button integration.
+* Improved form responsiveness and styling consistency.
+* Updated README documentation and project report.
+* Completed Git workflow with feature commits and final push.
+
+---
+
+## 👏 Credits & Acknowledgments
 
 Developed by **Rubben Shisso (ST10345300)**
 for **Varsity College Cape Town — Programming 3B (PROG7312)**
